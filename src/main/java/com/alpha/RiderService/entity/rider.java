@@ -19,13 +19,14 @@ public class rider {
 	private int numberofRides;
 	private double wallet;
 	private String drivinglicense;
-	private Long vehicleId;
+	private String vehicle;
+	private String status;
 	public rider() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public rider(String name, Long mobile, String mail, String gender, int numberofRides, double wallet,
-			String drivinglicense, Long vehicleId) {
+			String drivinglicense, String vehicle, String status) {
 		super();
 		this.name = name;
 		this.mobile = mobile;
@@ -34,7 +35,8 @@ public class rider {
 		this.numberofRides = numberofRides;
 		this.wallet = wallet;
 		this.drivinglicense = drivinglicense;
-		this.vehicleId = vehicleId;
+		this.vehicle = vehicle;
+		this.status = status;
 	}
 	public int getId() {
 		return id;
@@ -84,18 +86,19 @@ public class rider {
 	public void setDrivinglicense(String drivinglicense) {
 		this.drivinglicense = drivinglicense;
 	}
-	public Long getVehicleId() {
-		return vehicleId;
+	public String getVehicle() {
+		return vehicle;
 	}
-	public void setVehicleId(Long vehicleId) {
-		this.vehicleId = vehicleId;
+	public void setVehicle(String vehicle) {
+		this.vehicle = vehicle;
 	}
-	@Override
-	public String toString() {
-		return "rider [id=" + id + ", name=" + name + ", mobile=" + mobile + ", mail=" + mail + ", gender=" + gender
-				+ ", numberofRides=" + numberofRides + ", wallet=" + wallet + ", drivinglicense=" + drivinglicense
-				+ ", vehicleId=" + vehicleId + "]";
+	public String getStatus() {
+		return status;
 	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	
 	
 }

@@ -1,37 +1,20 @@
-package com.alpha.RiderService.entity;
+package com.alpha.RiderService.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class vehicle {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+public class createVehicleDto {
 	private String name;
 	private String type;
 	private String vehicleno;
 	private String model;
-	private String status;
-	public vehicle() {
+	public createVehicleDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public vehicle(String name, String type, String vehicleno, String model, String status) {
+	public createVehicleDto(String name, String type, String vehicleno, String model) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.vehicleno = vehicleno;
 		this.model = model;
-		this.status = status;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -57,11 +40,6 @@ public class vehicle {
 	public void setModel(String model) {
 		this.model = model;
 	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
 	
+
 }
