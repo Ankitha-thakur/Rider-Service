@@ -73,35 +73,20 @@ public class riderController {
 	}
 	
 	@PostMapping("/rider/assignBooking")
-	public String assignBooking(
-	        @RequestParam int riderId,
-	        @RequestParam int bookingId,
-	        @RequestParam double fare,
-	        @RequestParam double distance) {
-
-	    riderRedisService.assignBookingToRider(
-	            riderId,
-	            bookingId,
-	            fare,
-	            distance
-	    );
-
+	public String assignBooking(@RequestParam int riderId,@RequestParam int bookingId,@RequestParam double fare,@RequestParam double distance) {
+	    riderRedisService.assignBookingToRider(riderId,bookingId,fare,distance);
 	    return "Booking assigned successfully";
 	}
 	
 	
-	@GetMapping("/rider/getallAssignedruder/{riderid}")
+	@GetMapping("/rider/getallAssignedrider/{riderid}")
 	public List<Map<Object, Object>> findAssignedRider(@PathVariable int riderid) {
 	    return riderRedisService.findAssignedRider(riderid);
 	}
 	
 	@DeleteMapping("/rider/assignedBooking")
-	public String removeAssignedBooking(
-	        @RequestParam int riderId,
-	        @RequestParam int bookingId) {
-
+	public String removeAssignedBooking(@RequestParam int riderId,@RequestParam int bookingId) {
 	    riderRedisService.removeAssignedBooking(riderId, bookingId);
-
 	    return "Booking removed from rider successfully";
 	}
 	
