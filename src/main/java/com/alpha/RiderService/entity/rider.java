@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 public class rider {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private int riderid;
 	private String name;
 	@Column(unique=true)
 	private Long mobile;
@@ -38,11 +38,11 @@ public class rider {
 		this.vehicle = vehicle;
 		this.status = status;
 	}
-	public int getId() {
-		return id;
+	public int getRiderid() {
+		return riderid;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setRiderid(int riderid) {
+		this.riderid = riderid;
 	}
 	public String getName() {
 		return name;

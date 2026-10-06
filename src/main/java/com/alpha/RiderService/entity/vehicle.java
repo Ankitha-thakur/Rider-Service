@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class vehicle {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private int vehid;
 	private String name;
 	private String type;
 	private String vehicleno;
@@ -27,11 +27,12 @@ public class vehicle {
 		this.model = model;
 		this.status = status;
 	}
-	public int getId() {
-		return id;
+	
+	public int getVehid() {
+		return vehid;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setVehid(int vehid) {
+		this.vehid = vehid;
 	}
 	public String getName() {
 		return name;

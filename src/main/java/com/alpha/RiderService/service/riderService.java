@@ -40,7 +40,7 @@ public class riderService {
 	    vehicle savedVehicle = vr.save(v);
 
 	    // Store vehicle ID in rider as String
-	    r.setVehicle(String.valueOf(savedVehicle.getId()));
+	    r.setVehicle(String.valueOf(savedVehicle.getVehid()));
 		
 		rider savedRider=rr.save(r);
 		

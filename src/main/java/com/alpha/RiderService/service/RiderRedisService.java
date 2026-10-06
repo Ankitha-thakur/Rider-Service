@@ -1,7 +1,9 @@
 package com.alpha.RiderService.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Circle;
@@ -126,6 +128,53 @@ public class RiderRedisService {
         return new NearbyRiderResponseDto(
                 "Nearby riders found",
                 riders
+        );
+    }
+
+    public void assignBookingToRider(int riderId,int bookingId,double fare,double distance) {
+
+        String key = "assignedRides:" + riderId;
+
+        String bookingDetails =
+                "{\"fare\":" + fare +
+                ",\"distance\":" + distance + "}";
+
+        redisTemplate.opsForHash().put(
+                key,
+                String.valueOf(bookingId),
+                bookingDetails);
+    }
+    
+    
+    public List<Map<Object, Object>> findAssignedRider(int riderId) {
+
+        String key = "assignedRides:" + riderId;
+
+        Map<Object, Object> bookings =
+                redisTemplate.opsForHash().entries(key);
+
+        List<Map<Object, Object>> result = new ArrayList<>();
+
+        for (Map.Entry<Object, Object> entry : bookings.entrySet()) {
+
+            Map<Object, Object> booking =new HashMap<>();
+
+            booking.put("bookingId", entry.getKey());
+            booking.put("bookingDetails", entry.getValue());
+
+            result.add(booking);
+        }
+
+        return result;
+    }
+    
+    public void removeAssignedBooking(int riderId, int bookingId) {
+
+        String key = "assignedRides:" + riderId;
+
+        redisTemplate.opsForHash().delete(
+                key,
+                String.valueOf(bookingId)
         );
     }
 }
