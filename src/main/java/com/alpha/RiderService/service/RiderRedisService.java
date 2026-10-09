@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Circle;
@@ -176,5 +177,67 @@ public class RiderRedisService {
                 key,
                 String.valueOf(bookingId)
         );
+    }
+    private void removeBookingFromOtherRiders(
+            int acceptedRiderId,
+            int bookingId) {
+
+        Set<String> keys =
+                redisTemplate.keys("assignedRides:*");
+
+        if (keys == null) {
+            return;
+        }
+
+        for (String key : keys) {
+
+            String riderIdString =
+                    key.substring("assignedRides:".length());
+
+            int riderId =
+                    Integer.parseInt(riderIdString);
+
+            // Don't remove from the rider who accepted
+            if (riderId == acceptedRiderId) {
+                continue;
+            }
+
+            redisTemplate.opsForHash().delete(
+                    key,
+                    String.valueOf(bookingId)
+            );
+        }
+    }
+    public String acceptBooking(int riderId, int bookingId) {
+
+        String riderKey = "assignedRides:" + riderId;
+
+        // Check whether this booking exists for this rider
+        Boolean exists = redisTemplate.opsForHash()
+                .hasKey(
+                        riderKey,
+                        String.valueOf(bookingId)
+                );
+
+        if (!Boolean.TRUE.equals(exists)) {
+
+            return "Booking " + bookingId +
+                    " is not assigned to rider " + riderId;
+        }
+
+        // Remove booking from this rider's pending list
+        redisTemplate.opsForHash().delete(
+                riderKey,
+                String.valueOf(bookingId)
+        );
+
+        // Remove booking from all other riders
+        removeBookingFromOtherRiders(
+                riderId,
+                bookingId
+        );
+
+        return "Booking " + bookingId +
+                " accepted by rider " + riderId;
     }
 }

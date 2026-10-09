@@ -8,6 +8,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import org.springframework.web.client.RestTemplate;
+
 @SpringBootApplication
 public class RiderServiceApplication {
 
@@ -38,5 +40,11 @@ public class RiderServiceApplication {
         template.afterPropertiesSet();
 
         return template;
+    }
+
+    // RestTemplate for calling CustomerService
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

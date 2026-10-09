@@ -90,5 +90,21 @@ public class riderController {
 	    return "Booking removed from rider successfully";
 	}
 	
+	@PostMapping("/rider/acceptBooking")
+	public String acceptBooking(@RequestParam int riderId,@RequestParam int bookingId) {
+
+	    return riderRedisService.acceptBooking(riderId,bookingId);
+	}
+	
+	@GetMapping("/rider/moveTowardsPickup")
+	public String moveTowardsPickup(@RequestParam int bookingId) {
+	    return riderservice.moveTowardsPickup(bookingId);
+	}
+
+	@GetMapping("/rider/moveTowardsDestination")
+	public String moveTowardsDestination(@RequestParam int bookingId) {
+	    return riderservice.moveTowardsDestination(bookingId);
+	}
+	
 }
 

@@ -3,7 +3,10 @@ package com.alpha.RiderService.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.alpha.RiderService.dto.BookingDto;
+import com.alpha.RiderService.dto.CoordinateDto;
 import com.alpha.RiderService.dto.ResponseStructure;
 import com.alpha.RiderService.dto.createRiderDto;
 import com.alpha.RiderService.dto.createVehicleDto;
@@ -15,7 +18,9 @@ import com.alpha.RiderService.repository.riderrepo;
 import com.alpha.RiderService.repository.vehiclerepo;
 
 @Service
-public class riderService {
+public class riderService {@Autowired
+	private RestTemplate restTemplate;
+	
 	@Autowired
 	private riderrepo rr;
 	
@@ -126,5 +131,52 @@ public class riderService {
 	    rs.setData(updatedRider);
 
 	    return rs;
+	}
+	private BookingDto getBooking(int bookingId) {
+
+	    String url =
+	            "http://localhost:8085/booking/" + bookingId;
+
+	    return restTemplate.getForObject(
+	            url,
+	            BookingDto.class
+	    );
+	}
+	
+	
+	
+	public String moveTowardsPickup(int bookingId) {
+
+	    BookingDto booking = getBooking(bookingId);
+
+	    CoordinateDto pickup = booking.getSource();
+
+	    double lat = pickup.getLat();
+	    double lon = pickup.getLon();
+
+	    String url =
+	            "https://www.google.com/maps/dir/?api=1"
+	            + "&destination=" + lat + "," + lon
+	            + "&travelmode=driving";
+
+	    return url;
+	}
+	
+	public String moveTowardsDestination(int bookingId) {
+
+	    BookingDto booking = getBooking(bookingId);
+
+	    CoordinateDto destination =
+	            booking.getDestination();
+
+	    double lat = destination.getLat();
+	    double lon = destination.getLon();
+
+	    String url =
+	            "https://www.google.com/maps/dir/?api=1"
+	            + "&destination=" + lat + "," + lon
+	            + "&travelmode=driving";
+
+	    return url;
 	}
 }
