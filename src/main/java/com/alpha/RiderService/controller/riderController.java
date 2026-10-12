@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,7 @@ import com.alpha.RiderService.service.RiderRedisService;
 import com.alpha.RiderService.service.riderService;
 
 @RestController
+@RequestMapping("/rider")
 public class riderController {
 	@Autowired
 	private RiderRedisService riderRedisService ;
@@ -32,12 +34,12 @@ public class riderController {
 	@Autowired
 	private riderService riderservice;
 	
-	@PostMapping("/rider/create")
+	@PostMapping("/create")
 	public ResponseStructure<rider> createRider(@RequestBody createRiderDto crd) {
 		return riderservice.createRider(crd);
 	}
 	
-	@GetMapping("/rider/find")
+	@GetMapping("/find")
 	public ResponseStructure<vehicle> findRider(@RequestParam int id) {
 		return riderservice.findRider(id);
 	}
@@ -47,12 +49,12 @@ public class riderController {
 	    return riderservice.updateVehicle(id, cvd);
 	}
 	
-	@DeleteMapping("/rider/delete")
+	@DeleteMapping("/delete")
 	public ResponseStructure<rider> deleteRider(@RequestParam int id) {
 	    return riderservice.deleteRider(id);
 	}
 	
-	@PatchMapping("/rider/status")
+	@PatchMapping("/status")
 	public ResponseStructure<rider> updateRiderStatus( @RequestParam int riderid) {
 	    return riderservice.updateRiderStatus(riderid);
 	}
@@ -65,7 +67,7 @@ public class riderController {
         return "Current location saved successfully";
     }
 	
-	@PostMapping("/rider/nearby")
+	@PostMapping("/nearby")
 	public NearbyRiderResponseDto findNearbyRiders(
 	        @RequestBody NearbyRiderDto dto) {
 
@@ -79,29 +81,29 @@ public class riderController {
 	}
 	
 	
-	@GetMapping("/rider/getallAssignedrider/{riderid}")
+	@GetMapping("/getallAssignedrider/{riderid}")
 	public List<Map<Object, Object>> findAssignedRider(@PathVariable int riderid) {
 	    return riderRedisService.findAssignedRider(riderid);
 	}
 	
-	@DeleteMapping("/rider/assignedBooking")
+	@DeleteMapping("/assignedBooking")
 	public String removeAssignedBooking(@RequestParam int riderId,@RequestParam int bookingId) {
 	    riderRedisService.removeAssignedBooking(riderId, bookingId);
 	    return "Booking removed from rider successfully";
 	}
 	
-	@PostMapping("/rider/acceptBooking")
+	@PostMapping("/acceptBooking")
 	public String acceptBooking(@RequestParam int riderId,@RequestParam int bookingId) {
 
 	    return riderRedisService.acceptBooking(riderId,bookingId);
 	}
 	
-	@GetMapping("/rider/moveTowardsPickup")
+	@GetMapping("/moveTowardsPickup")
 	public String moveTowardsPickup(@RequestParam int bookingId) {
 	    return riderservice.moveTowardsPickup(bookingId);
 	}
 
-	@GetMapping("/rider/moveTowardsDestination")
+	@GetMapping("/moveTowardsDestination")
 	public String moveTowardsDestination(@RequestParam int bookingId) {
 	    return riderservice.moveTowardsDestination(bookingId);
 	}
